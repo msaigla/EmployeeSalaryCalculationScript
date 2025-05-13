@@ -23,14 +23,14 @@ MAC OS или Linux:
 ```bash
 python3 src/main.py file1.csv file2.csv --report payout
 ```
-Windows
+Windows:
 ```bash
 python src/main.py file1.csv file2.csv --report payout
 ```
 Аргументы:
 
 - `file1.csv file2.csv ...` — один или несколько CSV-файлов
-- `--report payout|avg` — тип отчёта
+- `--report payout` — тип отчёта
 
 ---
 
@@ -74,7 +74,6 @@ from src.reports.custom_report import CustomReport
 
 REPORTS = {
     "payout": PayoutReport,
-    "avg": AvgReport,
     "custom": CustomReport,  # ➕ добавлено
 }
 ```
@@ -98,7 +97,6 @@ project/
 │   └── reports/
 │       ├── base.py
 │       ├── payout_report.py
-│       ├── avg_report.py
 │       └── custom_report.py
 ├── tests/
 │   ├── test_reader.py
