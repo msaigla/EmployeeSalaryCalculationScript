@@ -1,0 +1,29 @@
+import argparse
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
+from src.utils.reader import read_employees
+from src.reports.payout_report import PayoutReport
+
+REPORTS = {
+    'payout': PayoutReport
+}
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('files', nargs='+')
+    parser.add_argument('--report', required=True, choices=REPORTS.keys())
+    args = parser.parse_args()
+
+    employees = []
+    for file in args.files:
+        employees.extend(read_employees(file))
+
+    report_class = REPORTS[args.report]
+    report = report_class(employees).generate()
+    print(report)
+
+if __name__ == "__main__":
+    main()
