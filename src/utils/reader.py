@@ -1,4 +1,7 @@
-def read_employees(filepath):
+from typing import List, Dict, Union
+
+
+def read_employees(filepath: str) -> List[Dict[str, Union[str, int]]]:
     with open(filepath, encoding='utf-8') as f:
         lines = f.read().splitlines()
 
@@ -21,7 +24,7 @@ def read_employees(filepath):
         elif lc == 'hours_worked':
             field_map['hours'] = i
 
-    result = []
+    result: List[Dict[str, Union[str, int]]] = []
     for line in lines[1:]:
         parts = line.split(',')
         result.append({

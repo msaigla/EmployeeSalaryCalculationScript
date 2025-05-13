@@ -1,14 +1,16 @@
 from collections import defaultdict
+from typing import Dict, List
+
 from src.reports.base import BaseReport
 
 class PayoutReport(BaseReport):
-    def generate(self):
-        departments = defaultdict(list)
+    def generate(self) -> str:
+        departments: Dict[str, List[tuple[str, int, int, int]]] = defaultdict(list)
         for emp in self.employees:
             payout = emp['hours'] * emp['rate']
             departments[emp['department']].append((emp['name'], emp['hours'], emp['rate'], payout))
 
-        lines = []
+        lines: List[str] = []
         for dept in sorted(departments):
             lines.append(dept)
             total = 0
