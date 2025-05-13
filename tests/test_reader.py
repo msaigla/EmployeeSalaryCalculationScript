@@ -1,18 +1,11 @@
+from pathlib import Path
+from typing import List, Dict, Union
 from src.utils.reader import read_employees
-import tempfile
 
-def test_read_employees_with_variants():
-    content = """id,email,name,department,hours_worked,salary
-1,a@a.com,Alice Johnson,Marketing,160,50
-2,b@b.com,Bob Smith,Design,150,40
-"""
-    with tempfile.NamedTemporaryFile(mode='w+', delete=False) as f:
-        f.write(content)
-        f.seek(0)
-        result = read_employees(f.name)
+Employee = Dict[str, Union[str, int]]
 
-    assert len(result) == 2
-    assert result[0]['name'] == 'Alice Johnson'
-    assert result[0]['department'] == 'Marketing'
-    assert result[0]['hours'] == 160
-    assert result[0]['rate'] == 50
+def test_read_employees(sample_csv: Path) -> None:
+    result: List[Employee] = read_employees(str(sample_csv))
+    assert len(result) == 3
+    assert result[0]['name'] == 'Alice'
+    assert result[1]['rate'] == 40

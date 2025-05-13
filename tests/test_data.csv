@@ -1,0 +1,4 @@
+id,email,name,department,hours_worked,salary
+1,a@example.com,Alice,Marketing,160,50
+2,b@example.com,Bob,Design,150,40
+3,c@example.com,Carol,Design,170,60

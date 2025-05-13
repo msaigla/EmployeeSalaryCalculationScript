@@ -5,6 +5,7 @@ from src.reports.base import BaseReport
 
 class AvgReport(BaseReport):
     def generate(self) -> str:
+        print(f"{'':>15}{'name':<20}{'rate and avg':<10}")
         departments: Dict[str, List[tuple[str, int]]] = defaultdict(list)
         for emp in self.employees:
             departments[emp['department']].append((emp['name'], emp['rate']))
