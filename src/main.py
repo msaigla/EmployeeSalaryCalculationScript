@@ -16,18 +16,31 @@ REPORTS: dict[str, Type[BaseReport]] = {
 }
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('files', nargs='+')
-    parser.add_argument('--report', required=True, choices=REPORTS.keys())
+    parser = argparse.ArgumentParser(description="Employee report generator")
+    parser.add_argument('files', nargs='+', help="One or more CSV files with employee data")
+    parser.add_argument('--report', required=True, choices=REPORTS.keys(), help="Type of report to generate")
     args = parser.parse_args()
 
     employees = []
-    for file in args.files:
-        employees.extend(read_employees(file))
 
-    report_class = REPORTS[args.report]
-    report = report_class(employees).generate()
-    print(report)
+    for file in args.files:
+        path = Path(file)
+        if not path.exists() or not path.is_file():
+            print(f"Ошибка: файл '{file}' не найден или не является файлом.", file=sys.stderr)
+            sys.exit(1)
+        try:
+            employees.extend(read_employees(file))
+        except Exception as e:
+            print(f"Ошибка при чтении файла '{file}': {e}", file=sys.stderr)
+            sys.exit(1)
+
+    try:
+        report_class = REPORTS[args.report]
+        report = report_class(employees).generate()
+        print(report)
+    except Exception as e:
+        print(f"Ошибка при генерации отчёта: {e}", file=sys.stderr)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
